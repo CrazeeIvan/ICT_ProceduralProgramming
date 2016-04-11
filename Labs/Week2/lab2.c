@@ -12,7 +12,7 @@ int main()
 
   printf("Please enter two (non-zero) integers that you wish to divide!\n");
   scanf("%d %d", &num1, &num2);
-  answer = num1/num2;
-  printf("%d divided by %d is: %f", num1, num2, answer);
+  answer = (float)num1/(float)num2;
+  printf("%d divided by %d is: %.5f", num1, num2, answer);
   return 0;
 }

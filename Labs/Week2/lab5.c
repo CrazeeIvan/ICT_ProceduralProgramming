@@ -5,7 +5,6 @@
 
 int main()
 {
-  int num1, num2, num3, num4, num5;
   int numArray[5];
   int count;
   printf("Please enter five integers:\n");

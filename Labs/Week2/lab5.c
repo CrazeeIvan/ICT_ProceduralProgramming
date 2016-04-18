@@ -6,11 +6,17 @@
 int main()
 {
   int num1, num2, num3, num4, num5;
-
-  printf("Please enter five integers:");
-  scanf("%d %d %d %d %d", &num1, &num2, &num3, &num4, &num5);
-  printf("Your numbers in reverse order were:\n %d %d %d %d %d", num5, num4, num3, num2, num1);
-
-
+  int numArray[5];
+  int count;
+  printf("Please enter five integers:\n");
+  for (count = 0; count<=4;count++)
+  {
+    scanf("%d", &numArray[count]);
+  }
+  printf("Your numbers in reverse order were: ");
+  for (count = 4;count>=0; count--)
+  {
+    printf("%d ", numArray[count]);
+  }
   return 0;
 }

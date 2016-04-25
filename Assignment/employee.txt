@@ -1,0 +1,32 @@
+
+Name: Ciaran Maher 
+Department=IT 
+ID=1001 
+Pay Rate=25 
+hours=1 
+gross=25
+
+
+Name: Ciaran Maher 
+Department=IT 
+ID=1001 
+Pay Rate=25 
+hours=1 
+gross=25
+
+
+Name: Ciaran Derp 
+Department=Sales 
+ID=1001 
+Pay Rate=3000 
+hours=1 
+gross=3000
+
+
+Name: Joe Bloggs 
+Department=Prod 
+ID=1001 
+Pay Rate=30 
+hours=1 
+gross=30
+

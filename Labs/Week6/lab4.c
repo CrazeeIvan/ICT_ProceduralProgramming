@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <math.h>
-#define POUNDS 2.204618676126485
+#define POUNDS 2.2046
 
 void menu();
 void celsius();
@@ -49,19 +49,19 @@ void menu()
 
 void celsius()
 {
-  long signed int temp, result;
+  long signed int input;
   printf("\nEnter a temperature in degrees Fahrenheit to convert to Celsius degrees: ");
-  scanf("%d", &temp);
-  result = (5 * (temp-32)/9);
-  printf("\n%d degrees Fahrenheit is %d degrees Celsius.\n", temp, result);
+  scanf("%d", &input);
+  printf("\n%d degrees Fahrenheit is %d degrees Celsius.\n", input, 5 * (input-32)/9);
 
 }
 
 
 void kilos()
 {
-  double input, result;
+  long signed int input, result;
   printf("\nEnter a weight in pounds to convert to kilos: ");
   scanf("%d", &input);
-  printf("\n%d pounds is %lf kilos.\n", input, input*POUNDS);
+  result = input / POUNDS;
+  printf("\n%d pounds is %ld kilos.\n", input, result);
 }

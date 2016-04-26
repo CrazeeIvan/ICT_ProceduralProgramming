@@ -1,24 +1,32 @@
 
+Name=Ciaran Maher 
+Department=IT 
+ID=1001 
+Pay Rate=250 
+hours=0 
+gross=0
+
+
 Name=Joey Bloggs 
-Department=Sales 
+Department=HR 
 ID=1001 
 Pay Rate=25 
 hours=0 
 gross=0
 
 
-Name=Jane Bloggs 
+Name=Katarina Cehovski 
 Department=IT 
 ID=1001 
-Pay Rate=22 
+Pay Rate=249 
 hours=0 
 gross=0
 
 
-Name=Ken Ryu 
-Department=Awe 
+Name=Jane Bloggs 
+Department=Sales 
 ID=1001 
-Pay Rate=9001 
+Pay Rate=251 
 hours=0 
 gross=0
 

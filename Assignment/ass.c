@@ -46,6 +46,15 @@ int main ()
       {
         departmentsMenu();
         scanf("%1d", &submenu);
+        if (submenu == 1)
+        {
+          testStructWrite();
+        }
+        else if (submenu == 2)
+        {
+          testStructRead();
+        }
+
       }
     }
     else if (option == 3)

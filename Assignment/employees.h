@@ -16,6 +16,7 @@ struct e
 };
 struct e emp[1], b[1];
 
+
 void employeeMenu()
 {
   printf("\n\t\t##Employee Menu##\n");
@@ -26,15 +27,16 @@ void employeeMenu()
   printf("\n\t\t5. Back\n");
 }
 
+
 void addEmployee()
 {
-  char confirm;
+  int confirm = 0;
   printf("\n\t\t##Add Employee##\n");
-  getDetails();
-  printDetails();
-  printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
   while (confirm != 1 && confirm != 2)
   {
+    getDetails();
+    printDetails();
+    printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
     scanf("%1d", &confirm);
     if (confirm == 1)
     {
@@ -45,10 +47,10 @@ void addEmployee()
     else if (confirm == 2)
     {
       // Prompt 'go back?' then go back to employee menu
+      printf("\n\nSave aborted.\n");
     }
     else
     {
-      // Invalid input, try again.
       printf("\n\nInvalid input, please try again.\n");
     }
   }
@@ -57,20 +59,12 @@ void addEmployee()
 
 int writeDetails()
 {
-  // FILE *fptr;
-  // fptr=(fopen(path,"a"));
-  // if(fptr==NULL){
-  //     printf("Error!\n\t\tError 1101: File write error!");
-  //     return 1;
-  // }
-  // fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp.firstName, emp.secondName, emp.department, emp.Id, emp.payRate, emp.hours, emp.gross);
-  // fclose(fptr);
-  // return 0;
   FILE *fptr;
-  fptr=fopen(path,"a");
+  fptr = fopen(path,"a");
   if(fptr==NULL)
   {
       printf("Error!\n\t\tError 1101: File write error!");
+      exit(EXIT_FAILURE);
   }
   printf("The size of (emp) is: %d", sizeof(emp));
   for (i=0;i<1;++i)
@@ -78,6 +72,8 @@ int writeDetails()
     fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp[i].firstName, emp[i].secondName, emp[i].department, emp[i].Id, emp[i].payRate, emp[i].hours, emp[i].gross);
     fclose(fptr);
   }
+  // fwrite(emp, sizeof(struct s), 1, fptr);
+  // fclose(fptr);
 }
 
 
@@ -97,7 +93,6 @@ void printDetails(int i)
 
 void getDetails()
 {
-
   for(i=0;i<1;++i)
   {
     fflush(stdin);
@@ -113,47 +108,25 @@ void getDetails()
     emp[i].gross = emp[i].payRate * emp[i].hours;
     emp[i].Id = 1001;
   }
-
-
-
-
-
-  // fwrite(emp, sizeof(emp), 1, fptr);
-  // fprintf(fptr,"\n");
-  // fclose(fptr);
-
-  // fptr=fopen("file.txt","rb");
-  // fread(b,sizeof(b),1,fptr);
-  // for(i=0;i<15;++i)
-  // {
-  //     printf("Name: %s\n",b[i].firstName);
-  // }
-  //
-  // fclose(fptr);
-
 }
+
 
 void loadDetails()
 {
-  char ch, file_name[25];
+  char ch;
   FILE *fp;
-
   printf("\n\t\t\n");
-
-
-  fp = fopen(path,"r"); // read mode
-
+  fp = fopen(path,"r");
   if( fp == NULL )
   {
-     perror("Error while opening the file.\n");
-     exit(EXIT_FAILURE);
+    perror("Error while opening the file.\n");
+    exit(EXIT_FAILURE);
   }
-
-  printf("The contents of %s file are :\n", path);
-
+  printf("The contents of %s file are:\n", path);
+  i = 0;
   while( ( ch = fgetc(fp) ) != EOF )
-     printf("%c",ch);
-
+  {
+    printf("%c",ch);
+  }
   fclose(fp);
-
 }

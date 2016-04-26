@@ -2,20 +2,19 @@
 #include <stdlib.h>
 
 int i =0;
-
 char path[] = "employee.txt";
 void printDetails();
 void getDetails();
 
-struct e
+typedef struct
 {
   int Id, payRate, hours, gross;
   char firstName[50];
   char secondName[50];
   char department[5];
-};
-struct e emp[1], b[1];
+} emp;
 
+emp data = {}, read_data;
 
 void employeeMenu()
 {
@@ -59,74 +58,46 @@ void addEmployee()
 
 int writeDetails()
 {
-  FILE *fptr;
-  fptr = fopen(path,"a");
-  if(fptr==NULL)
-  {
-      printf("Error!\n\t\tError 1101: File write error!");
-      exit(EXIT_FAILURE);
-  }
-  printf("The size of (emp) is: %d", sizeof(emp));
-  for (i=0;i<1;++i)
-  {
-    fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp[i].firstName, emp[i].secondName, emp[i].department, emp[i].Id, emp[i].payRate, emp[i].hours, emp[i].gross);
-    fclose(fptr);
-  }
-  // fwrite(emp, sizeof(struct s), 1, fptr);
-  // fclose(fptr);
+  printf("\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", data.firstName, data.secondName, data.department, data.Id, data.payRate, data.hours, data.gross);
+  FILE* fout = fopen(path, "w");
+  fwrite(&data, sizeof(emp), 1, fout);
+  fclose(fout);
 }
 
 
-void printDetails(int i)
+void printDetails()
 {
-  for (i=0;i<1;++i)
-  {
-    printf("\n\t\tEmployee name:\t\t %s %s", emp[i].firstName, emp[i].secondName);
-    printf("\n\t\tDepartment:\t\t %s", emp[i].department);
-    printf("\n\t\tPay rate:\t\t e%dp/h", emp[i].payRate);
-    printf("\n\t\tHours: \t\t\t %d", emp[i].hours);
-    printf("\n\t\tGross pay:\t\t %d", emp[i].gross);
-    printf("\n\t\tEmployee ID:\t\t %d", emp[i].Id);
-  }
+  printf("\n\t\tEmployee name:\t\t %s %s", data.firstName, data.secondName);
+  printf("\n\t\tDepartment:\t\t %s", data.department);
+  printf("\n\t\tPay rate:\t\t e%dp/h", data.payRate);
+  printf("\n\t\tHours: \t\t\t %d", data.hours);
+  printf("\n\t\tGross pay:\t\t %d", data.gross);
+  printf("\n\t\tEmployee ID:\t\t %d", data.Id);
 }
 
 
 void getDetails()
 {
-  for(i=0;i<1;++i)
-  {
-    fflush(stdin);
-    printf("Please enter employee first name:\n");
-    gets(emp[i].firstName);
-    printf("Please enter employee first name:\n");
-    gets(emp[i].secondName);
-    printf("Please enter employee department:\n");
-    gets(emp[i].department);
-    printf("Please enter employee pay rate (euro per hour):\n");
-    scanf("%d",&emp[i].payRate);
-    emp[i].hours = 0;
-    emp[i].gross = emp[i].payRate * emp[i].hours;
-    emp[i].Id = 1001;
-  }
+  fflush(stdin);
+  printf("Please enter employee first name:\n");
+  gets(data.firstName);
+  printf("Please enter employee first name:\n");
+  gets(data.secondName);
+  printf("Please enter employee department:\n");
+  gets(data.department);
+  printf("Please enter employee pay rate (euro per hour):\n");
+  scanf("%d",&data.payRate);
+  data.hours = 0;
+  data.gross = data.payRate * data.hours;
+  data.Id = 1001;
 }
 
 
 void loadDetails()
 {
-  char ch;
-  FILE *fp;
-  printf("\n\t\t\n");
-  fp = fopen(path,"r");
-  if( fp == NULL )
-  {
-    perror("Error while opening the file.\n");
-    exit(EXIT_FAILURE);
-  }
-  printf("The contents of %s file are:\n", path);
-  i = 0;
-  while( ( ch = fgetc(fp) ) != EOF )
-  {
-    printf("%c",ch);
-  }
-  fclose(fp);
+  FILE* fin = fopen(path, "r");
+  fread(&read_data, sizeof(emp), 1, fin );
+  // printDetails();
+  printf("\nName=\"%s %s\" \nDepartment=\"%s\" \nID=\"%d\" \nPay Rate=\"%d\" \nhours=\"%d\" \ngross=\"%d\"\n\n", read_data.firstName, read_data.secondName, read_data.department, read_data.Id, read_data.payRate, read_data.hours, read_data.gross);
+  fclose(fin);
 }

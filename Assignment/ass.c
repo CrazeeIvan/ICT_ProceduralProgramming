@@ -48,11 +48,11 @@ int main ()
         scanf("%1d", &submenu);
         if (submenu == 1)
         {
-          testStructWrite();
+
         }
         else if (submenu == 2)
         {
-          testStructRead();
+
         }
 
       }
@@ -63,6 +63,16 @@ int main ()
       {
         payMenu();
         scanf("%1d", &submenu);
+        if (submenu == 1)
+        {
+          //Add pay rate
+        }
+        else if (submenu == 2)
+        {
+          //Read pay rate
+        }
+
+
       }
     }
     else if (option == 4)

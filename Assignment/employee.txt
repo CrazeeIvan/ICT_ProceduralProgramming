@@ -14,3 +14,11 @@ Pay Rate=22
 hours=0 
 gross=0
 
+
+Name=Ken Ryu 
+Department=Awe 
+ID=1001 
+Pay Rate=9001 
+hours=0 
+gross=0
+

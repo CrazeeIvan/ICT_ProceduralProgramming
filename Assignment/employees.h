@@ -66,6 +66,18 @@ int writeDetails()
   // fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp.firstName, emp.secondName, emp.department, emp.Id, emp.payRate, emp.hours, emp.gross);
   // fclose(fptr);
   // return 0;
+  FILE *fptr;
+  fptr=fopen(path,"a");
+  if(fptr==NULL)
+  {
+      printf("Error!\n\t\tError 1101: File write error!");
+  }
+  printf("The size of (emp) is: %d", sizeof(emp));
+  for (i=0;i<1;++i)
+  {
+    fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp[i].firstName, emp[i].secondName, emp[i].department, emp[i].Id, emp[i].payRate, emp[i].hours, emp[i].gross);
+    fclose(fptr);
+  }
 }
 
 
@@ -85,8 +97,7 @@ void printDetails(int i)
 
 void getDetails()
 {
-  FILE *fptr;
-  fptr=fopen(path,"a");
+
   for(i=0;i<1;++i)
   {
     fflush(stdin);
@@ -102,16 +113,8 @@ void getDetails()
     emp[i].gross = emp[i].payRate * emp[i].hours;
     emp[i].Id = 1001;
   }
-  if(fptr==NULL)
-  {
-      printf("Error!\n\t\tError 1101: File write error!");
-  }
-  printf("The size of (emp) is: %d", sizeof(emp));
-  for (i=0;i<1;++i)
-  {
-    fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp[i].firstName, emp[i].secondName, emp[i].department, emp[i].Id, emp[i].payRate, emp[i].hours, emp[i].gross);
-    fclose(fptr);
-  }
+
+
 
 
 
@@ -135,7 +138,7 @@ void loadDetails()
   char ch, file_name[25];
   FILE *fp;
 
-  printf("Enter the name of file you wish to see\n");
+  printf("\n\t\t\n");
 
 
   fp = fopen(path,"r"); // read mode

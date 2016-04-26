@@ -6,7 +6,9 @@
 // diagram, inputs, outputs, and any other relevant information about the
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+
 #include "employees.h"
 #include "departments.h"
 #include "pay.h"
@@ -31,6 +33,10 @@ int main ()
         if (submenu == 1)
         {
           addEmployee();
+        }
+        else if (submenu == 2)
+        {
+          loadDetails();
         }
       }
     }

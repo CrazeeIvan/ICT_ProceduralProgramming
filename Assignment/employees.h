@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 int i =0;
 
 char path[] = "employee.txt";
@@ -74,9 +76,9 @@ void printDetails(int i)
     printf("\n\t\tEmployee name:\t\t %s %s", emp[i].firstName, emp[i].secondName);
     printf("\n\t\tDepartment:\t\t %s", emp[i].department);
     printf("\n\t\tPay rate:\t\t e%dp/h", emp[i].payRate);
-    printf("\n\t\tPay rate:\t\t %d", emp[i].hours);
-    printf("\n\t\tPay rate:\t\t %d", emp[i].gross);
-    printf("\n\t\tPay rate:\t\t %d", emp[i].Id);
+    printf("\n\t\tHours: \t\t\t %d", emp[i].hours);
+    printf("\n\t\tGross pay:\t\t %d", emp[i].gross);
+    printf("\n\t\tEmployee ID:\t\t %d", emp[i].Id);
   }
 }
 
@@ -104,20 +106,51 @@ void getDetails()
   {
       printf("Error!\n\t\tError 1101: File write error!");
   }
-  // fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp.firstName, emp.secondName, emp.department, emp.Id, emp.payRate, emp.hours, emp.gross);
-  // fclose(fptr);
-
-
-  fwrite(emp, sizeof(emp), 2, fptr);
-  fprintf(fptr,"\n");
-  fclose(fptr);
-  fptr=fopen("file.txt","rb");
-  fread(b,sizeof(b),1,fptr);
-  for(i=0;i<15;++i)
+  printf("The size of (emp) is: %d", sizeof(emp));
+  for (i=0;i<1;++i)
   {
-      printf("Name: %s\n",b[i].firstName);
+    fprintf(fptr,"\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", emp[i].firstName, emp[i].secondName, emp[i].department, emp[i].Id, emp[i].payRate, emp[i].hours, emp[i].gross);
+    fclose(fptr);
   }
 
-  fclose(fptr);
+
+
+  // fwrite(emp, sizeof(emp), 1, fptr);
+  // fprintf(fptr,"\n");
+  // fclose(fptr);
+
+  // fptr=fopen("file.txt","rb");
+  // fread(b,sizeof(b),1,fptr);
+  // for(i=0;i<15;++i)
+  // {
+  //     printf("Name: %s\n",b[i].firstName);
+  // }
+  //
+  // fclose(fptr);
+
+}
+
+void loadDetails()
+{
+  char ch, file_name[25];
+  FILE *fp;
+
+  printf("Enter the name of file you wish to see\n");
+
+
+  fp = fopen(path,"r"); // read mode
+
+  if( fp == NULL )
+  {
+     perror("Error while opening the file.\n");
+     exit(EXIT_FAILURE);
+  }
+
+  printf("The contents of %s file are :\n", path);
+
+  while( ( ch = fgetc(fp) ) != EOF )
+     printf("%c",ch);
+
+  fclose(fp);
 
 }

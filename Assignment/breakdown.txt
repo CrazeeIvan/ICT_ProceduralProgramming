@@ -32,3 +32,34 @@ Department:			IT
 Pay Rate:			€15 ph  // Pay Rate Band?
 Hours worked (this week):	39	// Period?
 Gross Wages:			€585	// Gross to date?
+
+
+Pseudo code:
+
+Add 
+	done (ish)
+
+Read 
+	Read from file
+	Dump to screen
+	Pg Up -> Navigate Up (Redraw previous page/10 entries)
+	Pg Down -> Navigate Down (Draw next page/10 entries)
+	1-10 -> Select 1st to 10th Entry
+
+Update
+	Dump to screen
+	Select employee to edit
+	Print Original 	("Current Name: Ciaran Maher")
+	Read New	("Enter new name (Press enter for no change): ")
+	Find original
+	Replace new
+
+Delete Employee
+	Select
+	Delete
+	Search
+	Confirm
+	Delete all lines from "name line"
+
+Repeat for Departments/Rates/Wages
+	

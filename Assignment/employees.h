@@ -12,7 +12,7 @@ struct e
   char secondName[50];
   char department[5];
 };
-struct e emp[4];
+struct e emp[1], b[1];
 
 void employeeMenu()
 {
@@ -28,14 +28,10 @@ void addEmployee()
 {
   char confirm;
   printf("\n\t\t##Add Employee##\n");
-
   getDetails();
-
-
-
   printDetails();
   printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
-  while (confirm != 1 || confirm != 2)
+  while (confirm != 1 && confirm != 2)
   {
     scanf("%1d", &confirm);
     if (confirm == 1)
@@ -48,13 +44,12 @@ void addEmployee()
     {
       // Prompt 'go back?' then go back to employee menu
     }
-    else if (confirm == 3)
+    else
     {
       // Invalid input, try again.
       printf("\n\nInvalid input, please try again.\n");
     }
   }
-
 }
 
 
@@ -74,20 +69,23 @@ int writeDetails()
 
 void printDetails(int i)
 {
-  printf("\n\t\tEmployee name:\t\t %s %s", emp[i].firstName, emp[i].secondName);
-  printf("\n\t\tDepartment:\t\t %s", emp[i].department);
-  printf("\n\t\tPay rate:\t\t e%dp/h", emp[i].payRate);
-  printf("\n\t\tPay rate:\t\t %d", emp[i].hours);
-  printf("\n\t\tPay rate:\t\t %d", emp[i].gross);
-  printf("\n\t\tPay rate:\t\t %d", emp[i].Id);
+  for (i=0;i<1;++i)
+  {
+    printf("\n\t\tEmployee name:\t\t %s %s", emp[i].firstName, emp[i].secondName);
+    printf("\n\t\tDepartment:\t\t %s", emp[i].department);
+    printf("\n\t\tPay rate:\t\t e%dp/h", emp[i].payRate);
+    printf("\n\t\tPay rate:\t\t %d", emp[i].hours);
+    printf("\n\t\tPay rate:\t\t %d", emp[i].gross);
+    printf("\n\t\tPay rate:\t\t %d", emp[i].Id);
+  }
 }
+
 
 void getDetails()
 {
-
   FILE *fptr;
-  fptr=fopen(path,"wb");
-  for(i=0;i<5;++i)
+  fptr=fopen(path,"a");
+  for(i=0;i<1;++i)
   {
     fflush(stdin);
     printf("Please enter employee first name:\n");
@@ -96,7 +94,6 @@ void getDetails()
     gets(emp[i].secondName);
     printf("Please enter employee department:\n");
     gets(emp[i].department);
-    printf("%d", i);
     printf("Please enter employee pay rate (euro per hour):\n");
     scanf("%d",&emp[i].payRate);
     emp[i].hours = 0;
@@ -111,14 +108,16 @@ void getDetails()
   // fclose(fptr);
 
 
-  fwrite(emp, sizeof(emp), 1, fptr);
+  fwrite(emp, sizeof(emp), 2, fptr);
+  fprintf(fptr,"\n");
   fclose(fptr);
-  // fptr=fopen("file.txt","rb");
-  // fread(b,sizeof(b),1,fptr);
-  // for(i=0;i<5;++i)
-  // {
-  //     printf("Name: %s\nHeight: %d",b[i].name,b[i].height);
-  // }
-  // fclose(fptr);
-  // i++;
+  fptr=fopen("file.txt","rb");
+  fread(b,sizeof(b),1,fptr);
+  for(i=0;i<15;++i)
+  {
+      printf("Name: %s\n",b[i].firstName);
+  }
+
+  fclose(fptr);
+
 }

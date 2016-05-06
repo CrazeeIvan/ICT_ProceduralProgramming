@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 #include "employees.h"
@@ -48,7 +49,7 @@ int main ()
         scanf("%1d", &submenu);
         if (submenu == 1)
         {
-
+            // WriteFile(&data);
         }
         else if (submenu == 2)
         {

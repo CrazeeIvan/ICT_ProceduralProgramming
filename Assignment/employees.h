@@ -1,21 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int i =0;
 char path[] = "employee.txt";
 char path2[] = "inisfree.txt";
-void printDetails();
-void getDetails();
 
-typedef struct
-{
-  int Id, payRate, hours, gross;
+
+typedef struct{
+  double Id, payRate, hours, gross;
   char firstName[50];
   char secondName[50];
   char department[5];
-} emp;
+} Employee;
 
-emp data = {}, read_data;
 
 void employeeMenu()
 {
@@ -28,26 +24,104 @@ void employeeMenu()
 }
 
 
-void addEmployee()
+int save_employees(Employee *employees, int numEmployees)
+{
+  FILE*file_ptr;
+	int i;
+	char text[50];
+	file_ptr = fopen( "employees.txt", "w+");
+	if(file_ptr!= NULL )
+	{
+		for(i = 0; i < numEmployees; i++){
+            char text[10];
+            fputs(employees[i].firstName, file_ptr);
+            fputs(employees[i].secondName, file_ptr);
+            fputs(employees[i].department, file_ptr);
+            snprintf(text, 10, "%.2f\n", employees[i].payRate);
+            fputs(text, file_ptr);
+        }
+		fclose( file_ptr);
+	}
+	else
+	{
+		printf( "Unable to open file\n");
+        return 1;
+	}
+}
+
+
+int get_all_employees(Employee *employees)
+{
+    // fill the list with employees
+	FILE*file_ptr;
+	int i = 0;
+	char text[50];
+	file_ptr = fopen( "employees.txt", "r");
+	if(file_ptr!= NULL )
+	{
+		while(fgets(text, 50, file_ptr) )
+		{
+            strcpy(employees[i].firstName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].secondName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].department, text);
+            fgets(text, 50, file_ptr);
+            employees[i].payRate = atof(text);
+            i++;
+		}
+		fclose( file_ptr);
+	}
+	else
+	{
+		printf( "Unable to open file\n");
+	}
+    // return the number of employees
+    return i;
+}
+
+
+void get_new_employee(Employee *employees, int numEmployees)
+{
+    // Gather employee details
+    printf("Enter first name of employee:\n");
+    scanf(" %[^\n]", employees[numEmployees].firstName);
+    strcat(employees[numEmployees].firstName, "\n");
+    printf("Enter second name of employee: ");
+    scanf(" %[^\n]", employees[numEmployees].secondName);
+    strcat(employees[numEmployees].secondName, "\n");
+    printf("Enter a department (IT/TEST/HR/SALES):\n");
+    scanf("%s", &employees[numEmployees].department);
+    strcat(employees[numEmployees].department, "\n");
+    printf("Enter pay rate:\n");
+    scanf("%lf", &employees[numEmployees].payRate);
+
+}
+
+
+void add_new_employee()
 {
   int confirm = 0;
   printf("\n\t\t##Add Employee##\n");
+  Employee* employees = malloc(20 * sizeof(Employee));
+  // get a list of all employees
+  int numEmployees = get_all_employees(employees);
+  get_new_employee(employees, numEmployees);
   while (confirm != 1 && confirm != 2)
   {
-    getDetails();
-    printDetails();
     printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
     scanf("%1d", &confirm);
     if (confirm == 1)
     {
       // Save file
-      writeDetails();
+      save_employees(employees, numEmployees+1);
       printf("\n\nThe submitted details were saved to %s\n\n", path);
     }
     else if (confirm == 2)
     {
       // Prompt 'go back?' then go back to employee menu
       printf("\n\nSave aborted.\n");
+      break;
     }
     else
     {
@@ -57,120 +131,64 @@ void addEmployee()
 }
 
 
-int writeDetails()
+void print_all_details()
 {
-    // FILE*file_ptr; int i;
-    // char text[50];
-    // file_ptr = fopen( path2, "r+a");
-    //
-    // // text[50] = "\n" + data.firstName + "\n" + data.secondName + "\n" + data.department + "\n" + data.payRate;
-    // if(file_ptr!= NULL )
-    // {
-    //     printf( "File inisfree.txt opened\n" );
-    //     while(fgets(text, 50, file_ptr) )
-    //     {
-    //         printf( "%s", text) ;
-    //     }
-    //
-    //     strcpy( text, "test_add");
-    //     fputs( text, file_ptr) ;
-    //     fclose( file_ptr);
-    //     // printf("%s", sizeof(text));
-    // }
-    // else
-    // {
-    //     printf( "Unable to open file\n");
-    // }
-
-    //   printf("\nName=%s %s \nDepartment=%s \nID=%d \nPay Rate=%d \nhours=%d \ngross=%d\n\n", data.firstName, data.secondName, data.department, data.Id, data.payRate, data.hours, data.gross);
-    //   FILE* fout = fopen(path, "wb");
-    //   fwrite(&data, sizeof(emp), 1, fout);
-    //   fclose(fout);
+  Employee* employees = malloc(20 * sizeof(Employee));
+  // get a list of all employees
+  int numEmployees = get_all_employees(employees), i;
+  for(i = 0; i < numEmployees; i++)
+  {
+    printf("Employee employeeNumber: %d\n", i+1);
+    printf("Employee firstName: %s", employees[i].firstName);
+    printf("Employee secondName: %s", employees[i].secondName);
+    printf("Employee department: %s", employees[i].department);
+    printf("Employee payRate: %.2f\n", employees[i].payRate);
+    // printf("Employee hours: %s\n", employees[i].hours);
+    // printf("Employee gross: %s\n", employees[i].gross);
+  }
 }
 
 
-void printDetails()
+void print_details(employeeNum)
 {
-  printf("\n\t\tEmployee name:\t\t %s %s", data.firstName, data.secondName);
-  printf("\n\t\tDepartment:\t\t %s", data.department);
-  printf("\n\t\tPay rate:\t\t e%dp/h", data.payRate);
-  printf("\n\t\tHours: \t\t\t %d", data.hours);
-  printf("\n\t\tGross pay:\t\t %d", data.gross);
-  printf("\n\t\tEmployee ID:\t\t %d", data.Id);
-}
-
-
-void getDetails()
-{
-  fflush(stdin);
-  printf("Please enter employee first name:\n");
-  gets(data.firstName);
-  printf("Please enter employee first name:\n");
-  gets(data.secondName);
-  printf("Please enter employee department:\n");
-  gets(data.department);
-  printf("Please enter employee pay rate (euro per hour):\n");
-  scanf("%d", &data.payRate);
-  data.hours = 0;
-  data.gross = data.payRate * data.hours;
-  data.Id = 1001;
-}
-void test_save_details()
-{
-    FILE*file_ptr; int i;
-    char text[50];
-    file_ptr = fopen( path2, "r+a");
-
-    // text[] = "\n" + data.firstName + "\n" + data.secondName + "\n" + data.department + "\n" + data.payRate
-    if(file_ptr!= NULL )
+  Employee* employees = malloc(20 * sizeof(Employee));
+  // get a list of all employees
+  int numEmployees = get_all_employees(employees), i;
+  for(i = 0; i < numEmployees; i++)
+  {
+    if (employeeNum == i+1)
     {
-        printf( "File inisfree.txt opened\n" );
-        while(fgets(text, 50, file_ptr) )
-        {
-            printf( "%s", text) ;
-        }
-
-        strcpy( text, "test_add");
-        fputs( text, file_ptr) ;
-        fclose( file_ptr);
-        // printf("%s", sizeof(text));
+      printf("\nEmployee employeeNumber: %d\n", i+1);
+      printf("Employee firstName: %s", employees[employeeNum].firstName);
+      printf("Employee secondName: %s", employees[employeeNum].secondName);
+      printf("Employee department: %s", employees[employeeNum].department);
+      printf("Employee payRate: %.2f\n", employees[employeeNum].payRate);
+      // printf("Employee hours: %s\n", employees[employeeNum].hours);
+      // printf("Employee gross: %s\n", employees[employeeNum].gross);
     }
-    else
+  }
+}
+
+
+void update_employee()
+{
+  int employeeNum = 0;
+  printf("Please select employee Number of the employee you would like to update:\n");
+  scanf("%d", &employeeNum);
+  Employee* employees = malloc(20 * sizeof(Employee));
+  // get a list of all employees
+  int numEmployees = get_all_employees(employees), i;
+
+  for(i = 0; i < numEmployees; i++)
+  {
+    if (employeeNum == i+1)
     {
-        printf( "Unable to open file\n");
+      printf("Employee employeeNumber: %d\n", employeeNum);
+      printf("Employee firstName: (Press enter to keep current.)\nCurrent: %s", employees[employeeNum].firstName);
+      printf("Employee secondName: (Press enter to keep current.)\nCurrent: %s", employees[employeeNum].secondName);
+      printf("Employee department: (Press enter to keep current.)\nCurrent: %s ", employees[employeeNum].department);
+      printf("Employee payRate: (Press enter to keep current.)\nCurrent: %.2f", employees[employeeNum].payRate);
     }
-}
-
-void WriteFile()
-{
-//     printf("Attempting to write...");
-//     FILE* fp = 0;
-//     char* buffer = 0;
-//     int i=0;
-//
-//     /* allocate */
-//     buffer = malloc ( 150 );
-//     bzero( buffer, 150 );
-//
-//     /* copy the data to a string */
-//     snprintf(buffer, 150, "\t\r\nName=%s %s \t\r\nDepartment=%s \t\r\nID=%d \t\r\nPay Rate=%d \t\r\nhours=%d \t\r\ngross=%d\t\r\n", q->firstName, q->secondName, q->department, q->Id, q->payRate, q->hours, q->gross);
-//     // snprintf( buffer, 150, "%s\t%s\t%d\t%s\t%.2f\t%.2f\t%d/%d/%d\t%d/%d/%d\t%d/%d/%d\n",q->name,q->numberplate,q->km,q->phonenumber,q->overall_cost,q->paid_cost,q->dateIn->day,q->dateIn->month,q->dateIn->year,q->dateServiced->day,q->dateServiced->month,q->dateServiced->year,q->dateOut->day,q->dateOut->month,q->dateOut->year);
-//     printf("\n");
-//
-//     fp = fopen("arxeio3.txt", "a" );
-//     fputs( buffer, fp );
-//     fputs("\n",fp);
-//
-//     free( buffer );
-//     fclose( fp );
-}
-
-
-
-void loadDetails()
-{
-  FILE* fin = fopen(path, "rb");
-  fread(&read_data, sizeof(emp), 1, fin );
-  printf("\nName=\"%s %s\" \nDepartment=\"%s\" \nID=\"%d\" \nPay Rate=\"%d\" \nhours=\"%d\" \ngross=\"%d\"\n\n", read_data.firstName, read_data.secondName, read_data.department, read_data.Id, read_data.payRate, read_data.hours, read_data.gross);
-  fclose(fin);
+  }
+  print_details(employeeNum);
 }

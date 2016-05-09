@@ -33,12 +33,18 @@ int main ()
         scanf("%1d", &submenu);
         if (submenu == 1)
         {
-          addEmployee();
+          add_new_employee();
         }
         else if (submenu == 2)
         {
-          loadDetails();
+          print_all_details();
         }
+        else if (submenu == 3
+        )
+        {
+          update_employee();
+        }
+
       }
     }
     else if (option == 2)

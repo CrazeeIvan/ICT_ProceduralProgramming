@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char path[] = "employee.txt";
-char path2[] = "inisfree.txt";
+char path[] = "employees.txt";
 
 
 typedef struct{
@@ -29,19 +28,20 @@ int save_employees(Employee *employees, int numEmployees)
   FILE*file_ptr;
 	int i;
 	char text[50];
-	file_ptr = fopen( "employees.txt", "w+");
-	if(file_ptr!= NULL )
+	file_ptr = fopen(path, "w+");
+	if(file_ptr!= NULL)
 	{
-		for(i = 0; i < numEmployees; i++){
-            char text[10];
-            fputs(employees[i].firstName, file_ptr);
-            fputs(employees[i].secondName, file_ptr);
-            fputs(employees[i].department, file_ptr);
-            snprintf(text, 10, "%.2f\n", employees[i].payRate);
-            fputs(text, file_ptr);
-        }
+		for(i = 0; i < numEmployees; i++)
+    {
+      char text[10];
+      fputs(employees[i].firstName, file_ptr);
+      fputs(employees[i].secondName, file_ptr);
+      fputs(employees[i].department, file_ptr);
+      snprintf(text, 10, "%.2f\n", employees[i].payRate);
+      fputs(text, file_ptr);
+    }
 		fclose( file_ptr);
-	}
+  }
 	else
 	{
 		printf( "Unable to open file\n");
@@ -52,11 +52,11 @@ int save_employees(Employee *employees, int numEmployees)
 
 int get_all_employees(Employee *employees)
 {
-    // fill the list with employees
+  // fill the list with employees
 	FILE*file_ptr;
 	int i = 0;
 	char text[50];
-	file_ptr = fopen( "employees.txt", "r");
+	file_ptr = fopen(path, "r");
 	if(file_ptr!= NULL )
 	{
 		while(fgets(text, 50, file_ptr) )
@@ -91,7 +91,7 @@ void get_new_employee(Employee *employees, int numEmployees)
     scanf(" %[^\n]", employees[numEmployees].secondName);
     strcat(employees[numEmployees].secondName, "\n");
     printf("Enter a department (IT/TEST/HR/SALES):\n");
-    scanf("%s", &employees[numEmployees].department);
+    scanf("%[^\n]", &employees[numEmployees].department);
     strcat(employees[numEmployees].department, "\n");
     printf("Enter pay rate:\n");
     scanf("%lf", &employees[numEmployees].payRate);
@@ -101,12 +101,12 @@ void get_new_employee(Employee *employees, int numEmployees)
 
 void add_new_employee()
 {
-  int confirm = 0;
   printf("\n\t\t##Add Employee##\n");
   Employee* employees = malloc(20 * sizeof(Employee));
   // get a list of all employees
   int numEmployees = get_all_employees(employees);
   get_new_employee(employees, numEmployees);
+  int confirm = 0;
   while (confirm != 1 && confirm != 2)
   {
     printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
@@ -138,11 +138,12 @@ void print_all_details()
   int numEmployees = get_all_employees(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
-    printf("Employee employeeNumber: %d\n", i+1);
-    printf("Employee firstName: %s", employees[i].firstName);
-    printf("Employee secondName: %s", employees[i].secondName);
-    printf("Employee department: %s", employees[i].department);
-    printf("Employee payRate: %.2f\n", employees[i].payRate);
+    printf("\n*************************");
+    printf("\nNumber: %d\n", i+1);
+    printf("First Name: %s", employees[i].firstName);
+    printf("Second Name: %s", employees[i].secondName);
+    printf("Department: %s", employees[i].department);
+    printf("Pay rate: %.2f\n", employees[i].payRate);
     // printf("Employee hours: %s\n", employees[i].hours);
     // printf("Employee gross: %s\n", employees[i].gross);
   }
@@ -158,13 +159,14 @@ void print_details(employeeNum)
   {
     if (employeeNum == i+1)
     {
-      printf("\nEmployee employeeNumber: %d\n", i+1);
-      printf("Employee firstName: %s", employees[employeeNum].firstName);
-      printf("Employee secondName: %s", employees[employeeNum].secondName);
-      printf("Employee department: %s", employees[employeeNum].department);
-      printf("Employee payRate: %.2f\n", employees[employeeNum].payRate);
-      // printf("Employee hours: %s\n", employees[employeeNum].hours);
-      // printf("Employee gross: %s\n", employees[employeeNum].gross);
+      printf("\n*************************");
+      printf("\nNumber: %d\n", i+1);
+      printf("First Name: %s", employees[employeeNum].firstName);
+      printf("Second Name: %s", employees[employeeNum].secondName);
+      printf("Department: %s", employees[employeeNum].department);
+      printf("Pay rate: %.2f\n", employees[employeeNum].payRate);
+      // printf("Jours: %s\n", employees[employeeNum].hours);
+      // printf("Gross: %s\n", employees[employeeNum].gross);
     }
   }
 }
@@ -183,11 +185,42 @@ void update_employee()
   {
     if (employeeNum == i+1)
     {
-      printf("Employee employeeNumber: %d\n", employeeNum);
-      printf("Employee firstName: (Press enter to keep current.)\nCurrent: %s", employees[employeeNum].firstName);
-      printf("Employee secondName: (Press enter to keep current.)\nCurrent: %s", employees[employeeNum].secondName);
-      printf("Employee department: (Press enter to keep current.)\nCurrent: %s ", employees[employeeNum].department);
-      printf("Employee payRate: (Press enter to keep current.)\nCurrent: %.2f", employees[employeeNum].payRate);
+      printf("Number: %d\n", employeeNum+1);
+      printf("First Name: Current: %s", employees[employeeNum].firstName);
+      scanf(" %[^\n]", employees[employeeNum].firstName);
+      strcat(employees[employeeNum].firstName, "\n");
+      printf("Second Name: Current: %s", employees[employeeNum].secondName);
+      scanf(" %[^\n]", employees[employeeNum].secondName);
+      strcat(employees[employeeNum].secondName, "\n");
+      printf("Department: Current: %s ", employees[employeeNum].department);
+      scanf("%[^\n]", &employees[employeeNum].department);
+      strcat(employees[employeeNum].department, "\n");
+      printf("Pay rate: Current: %.2f\n", employees[employeeNum].payRate);
+      scanf("%lf", &employees[employeeNum].payRate);
+
+      int confirm = 0;
+      while (confirm != 1 && confirm != 2)
+      {
+        printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
+        scanf("%1d", &confirm);
+        if (confirm == 1)
+        {
+          // Save file
+          save_employees(employees, numEmployees);
+          printf("\n\nThe submitted details were saved to %s\n\n", path);
+        }
+        else if (confirm == 2)
+        {
+          // Prompt 'go back?' then go back to employee menu
+          printf("\n\nSave aborted.\n");
+          break;
+        }
+        else
+        {
+          printf("\n\nInvalid input, please try again.\n");
+        }
+      }
+
     }
   }
   print_details(employeeNum);

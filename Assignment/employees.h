@@ -91,7 +91,7 @@ void get_new_employee(Employee *employees, int numEmployees)
     scanf(" %[^\n]", employees[numEmployees].secondName);
     strcat(employees[numEmployees].secondName, "\n");
     printf("Enter a department (IT/TEST/HR/SALES):\n");
-    scanf("%[^\n]", &employees[numEmployees].department);
+    scanf("%s", &employees[numEmployees].department);
     strcat(employees[numEmployees].department, "\n");
     printf("Enter pay rate:\n");
     scanf("%lf", &employees[numEmployees].payRate);
@@ -180,10 +180,10 @@ void update_employee()
   Employee* employees = malloc(20 * sizeof(Employee));
   // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
-
+  employeeNum-=1;
   for(i = 0; i < numEmployees; i++)
   {
-    if (employeeNum == i+1)
+    if (employeeNum == i)
     {
       printf("Number: %d\n", employeeNum+1);
       printf("First Name: Current: %s", employees[employeeNum].firstName);
@@ -193,7 +193,7 @@ void update_employee()
       scanf(" %[^\n]", employees[employeeNum].secondName);
       strcat(employees[employeeNum].secondName, "\n");
       printf("Department: Current: %s ", employees[employeeNum].department);
-      scanf("%[^\n]", &employees[employeeNum].department);
+      scanf("%s", &employees[employeeNum].department);
       strcat(employees[employeeNum].department, "\n");
       printf("Pay rate: Current: %.2f\n", employees[employeeNum].payRate);
       scanf("%lf", &employees[employeeNum].payRate);
@@ -201,6 +201,7 @@ void update_employee()
       int confirm = 0;
       while (confirm != 1 && confirm != 2)
       {
+        print_details(employeeNum);
         printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
         scanf("%1d", &confirm);
         if (confirm == 1)

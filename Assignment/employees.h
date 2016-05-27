@@ -32,16 +32,16 @@ int save_employees(Employee *employees, int numEmployees)
 	if(file_ptr!= NULL)
 	{
 		for(i = 0; i < numEmployees; i++)
-    {
-      char text[10];
-      fputs(employees[i].firstName, file_ptr);
-      fputs(employees[i].secondName, file_ptr);
-      fputs(employees[i].department, file_ptr);
-      snprintf(text, 10, "%.2f\n", employees[i].payRate);
-      fputs(text, file_ptr);
-    }
+        {
+          char text[10];
+          fputs(employees[i].firstName, file_ptr);
+          fputs(employees[i].secondName, file_ptr);
+          fputs(employees[i].department, file_ptr);
+          snprintf(text, 10, "%.2f\n", employees[i].payRate);
+          fputs(text, file_ptr);
+        }
 		fclose( file_ptr);
-  }
+   }
 	else
 	{
 		printf( "Unable to open file\n");
@@ -59,7 +59,7 @@ int get_all_employees(Employee *employees)
 	file_ptr = fopen(path, "r");
 	if(file_ptr!= NULL )
 	{
-		while(fgets(text, 50, file_ptr) )
+		while(fgets(text, 50, file_ptr))
 		{
             strcpy(employees[i].firstName, text);
             fgets(text, 50, file_ptr);
@@ -139,7 +139,7 @@ void print_all_details()
   for(i = 0; i < numEmployees; i++)
   {
     printf("\n*************************");
-    printf("\nNumber: %d\n", i+1);
+    printf("\nNumber: %d\n", i);
     printf("First Name: %s", employees[i].firstName);
     printf("Second Name: %s", employees[i].secondName);
     printf("Department: %s", employees[i].department);
@@ -157,10 +157,10 @@ void print_details(employeeNum)
   int numEmployees = get_all_employees(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
-    if (employeeNum == i+1)
+    if (employeeNum == i)
     {
       printf("\n*************************");
-      printf("\nNumber: %d\n", i+1);
+      printf("\nNumber: %d\n", i);
       printf("First Name: %s", employees[employeeNum].firstName);
       printf("Second Name: %s", employees[employeeNum].secondName);
       printf("Department: %s", employees[employeeNum].department);
@@ -180,12 +180,11 @@ void update_employee()
   Employee* employees = malloc(20 * sizeof(Employee));
   // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
-  employeeNum-=1;
   for(i = 0; i < numEmployees; i++)
   {
     if (employeeNum == i)
     {
-      printf("Number: %d\n", employeeNum+1);
+      printf("Number: %d\n", employeeNum);
       printf("First Name: Current: %s", employees[employeeNum].firstName);
       scanf(" %[^\n]", employees[employeeNum].firstName);
       strcat(employees[employeeNum].firstName, "\n");
@@ -202,7 +201,7 @@ void update_employee()
       while (confirm != 1 && confirm != 2)
       {
         print_details(employeeNum);
-        printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
+        printf("\n\n\n\t\tAre you sure you would like to replace these employee details?\n\t\t\t1. Yes/2. No\n");
         scanf("%1d", &confirm);
         if (confirm == 1)
         {
@@ -225,4 +224,42 @@ void update_employee()
     }
   }
   print_details(employeeNum);
+}
+
+
+void delete_employee()
+{
+    int employeeNum = 0;
+    printf("Please select employee Number of the employee you would like to delete:\n");
+    scanf("%d", &employeeNum);
+    Employee* employees = malloc(20 * sizeof(Employee));
+    // get a list of all employees
+    int numEmployees = get_all_employees(employees), i;
+    for (i = employeeNum; i < numEmployees-1 ; i++ )
+        employees[i] = employees[i+1];
+    int confirm = 0;
+    while (confirm != 1 && confirm != 2)
+    {
+      print_details(employeeNum);
+      printf("\n\n\n\t\tAre you sure you would like to delete this employee record?\n\t\t\t1. Yes/2. No\n");
+      scanf("%1d", &confirm);
+      if (confirm == 1)
+      {
+        // Save file
+        save_employees(employees, numEmployees-1);
+        printf("\n\nThe submitted details were saved to %s\n\n", path);
+      }
+      else if (confirm == 2)
+      {
+        // Prompt 'go back?' then go back to employee menu
+        printf("\n\nSave aborted.\n");
+        break;
+      }
+      else
+      {
+        printf("\n\nInvalid input, please try again.\n");
+      }
+    }
+    print_all_details();
+
 }

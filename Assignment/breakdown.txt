@@ -12,7 +12,7 @@ crud wages
 	calculate gross wages (hours * hourly rate) for the week
 	smallest unit of work is 1/4 hour
 	output to a filename (name to include date)
-	
+
 
 
 
@@ -29,21 +29,19 @@ crud wages
 Employee ID: 			1001
 Employee Name:			Ciaran Maher
 Department:			IT
-Pay Rate:			€15 ph  // Pay Rate Band?
+Pay Rate:			â‚¬15 ph  // Pay Rate Band?
 Hours worked (this week):	39	// Period?
-Gross Wages:			€585	// Gross to date?
+Gross Wages:			â‚¬585	// Gross to date?
 
 
 Pseudo code:
 
-Add 
+Add
 	done (ish)
 
-Read 
+Read
 	Read from file
 	Dump to screen
-	Pg Up -> Navigate Up (Redraw previous page/10 entries)
-	Pg Down -> Navigate Down (Draw next page/10 entries)
 	1-10 -> Select 1st to 10th Entry
 
 Update
@@ -62,4 +60,3 @@ Delete Employee
 	Delete all lines from "name line"
 
 Repeat for Departments/Rates/Wages
-	

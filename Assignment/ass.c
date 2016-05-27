@@ -39,10 +39,13 @@ int main ()
         {
           print_all_details();
         }
-        else if (submenu == 3
-        )
+        else if (submenu == 3)
         {
           update_employee();
+        }
+        else if (submenu == 4)
+        {
+            delete_employee();
         }
 
       }

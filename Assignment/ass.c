@@ -58,7 +58,7 @@ int main ()
         scanf("%1d", &submenu);
         if (submenu == 1)
         {
-            // WriteFile(&data);
+            run_payroll();
         }
         else if (submenu == 2)
         {
@@ -81,8 +81,6 @@ int main ()
         {
           //Read pay rate
         }
-
-
       }
     }
     else if (option == 4)
@@ -91,6 +89,14 @@ int main ()
       {
         wagesMenu();
         scanf("%1d", &submenu);
+        if (submenu == 2)
+        {
+          print_all_wages();
+        }
+        else if (submenu == 2)
+        {
+          //Read pay rate
+        }
       }
     }
     else if (option != 5)

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 char path[] = "employees.txt";
 
@@ -262,4 +264,84 @@ void delete_employee()
     }
     print_all_details();
 
+}
+
+
+int run_payroll()
+{
+    Employee* employees = malloc(20 * sizeof(Employee));
+    // get a list of all employees
+    int numEmployees = get_all_employees(employees);
+
+    // prompts user to enter number of hours for employees
+    int i;
+    int valid  = 1;
+    for(i = 0; i < numEmployees; i++)
+    {
+            do
+            {
+                printf("Enter hours for %s %s", employees[i].firstName, employees[i].secondName);
+                scanf("%lf", &employees[i].hours);
+
+                double remainder = employees[i].hours - (int)employees[i].hours;
+
+                if(remainder != 0 && remainder != 0.25 && remainder != 0.50 && remainder != 0.75)
+                {
+                    valid = 0;
+					printf("Invalid value, minimum is quarter of an hour (0, 0.25, 0.5 or 0.75)\n");
+                }
+				else
+                {
+					valid = 1;
+                }
+            } while(valid != 1);
+
+    }
+
+    FILE *fp;
+    // insert the date into the char array
+    time_t now;
+    struct tm *t;
+    char text[80];
+
+    time(&now);
+
+    t = localtime(&now);
+
+    strftime(text, 80, "%d-%m-%Y", t);
+
+    // concat the date to file name
+    char *filename;
+    if((filename = malloc(strlen("Payroll.txt")+81)) != NULL)
+    {
+        filename[0] = '\0';   // ensures the memory is an empty string
+        strcpy(filename, "Payroll - ");
+        strcat(filename, text);
+        strcat(filename, ".txt");
+    }
+
+    // use the file
+    fp = fopen(filename, "w+");
+
+    for(i = 0; i < numEmployees; i++)
+    {
+            char gross[20];
+            char text[10];
+            fputs(employees[i].firstName, fp);
+            fputs(employees[i].secondName, fp);
+            fputs(employees[i].department, fp);
+            employees[i].gross = employees[i].payRate * employees[i].hours;
+            // snprintf(text, 10, "%.2f\n", employees[i].payRate);
+            // fputs(text, fp);
+            snprintf(gross, 20, "%.2f\n", employees[i].gross);
+            fputs(gross, fp);
+
+
+            printf("\nName:\t\t%s %s", employees[i].firstName, employees[i].secondName);
+            printf("Department:\t%s", employees[i].department);
+            printf("Pay Rate:\t%s", employees[i].payRate);
+            printf("Gross:\t\t%s", gross);
+
+    }
+    fclose(fp);
 }

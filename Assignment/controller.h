@@ -14,15 +14,6 @@ typedef struct{
 } Employee;
 
 
-void employeeMenu()
-{
-  printf("\n\t\t##Employee Menu##\n");
-  printf("\n\t\t1. Add Employees");
-  printf("\n\t\t2. Show Employees");
-  printf("\n\t\t3. Update Employees");
-  printf("\n\t\t4. Delete Employees");
-  printf("\n\t\t5. Back\n");
-}
 
 
 int save_employees(Employee *employees, int numEmployees)
@@ -97,7 +88,6 @@ void get_new_employee(Employee *employees, int numEmployees)
     strcat(employees[numEmployees].department, "\n");
     printf("Enter pay rate:\n");
     scanf("%lf", &employees[numEmployees].payRate);
-
 }
 
 
@@ -182,10 +172,12 @@ void update_employee()
   Employee* employees = malloc(20 * sizeof(Employee));
   // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
+  int employeeFound = 0;
   for(i = 0; i < numEmployees; i++)
   {
     if (employeeNum == i)
     {
+      employeeFound = 1;
       printf("Number: %d\n", employeeNum);
       printf("First Name: Current: %s", employees[employeeNum].firstName);
       scanf(" %[^\n]", employees[employeeNum].firstName);
@@ -198,7 +190,6 @@ void update_employee()
       strcat(employees[employeeNum].department, "\n");
       printf("Pay rate: Current: %.2f\n", employees[employeeNum].payRate);
       scanf("%lf", &employees[employeeNum].payRate);
-
       int confirm = 0;
       while (confirm != 1 && confirm != 2)
       {
@@ -222,10 +213,14 @@ void update_employee()
           printf("\n\nInvalid input, please try again.\n");
         }
       }
-
     }
+
   }
   print_details(employeeNum);
+  if (employeeFound == 0)
+  {
+    printf("\nEmployee not found. Update aborted.\n");
+  }
 }
 
 
@@ -263,7 +258,6 @@ void delete_employee()
       }
     }
     print_all_details();
-
 }
 
 
@@ -272,7 +266,6 @@ int run_payroll()
     Employee* employees = malloc(20 * sizeof(Employee));
     // get a list of all employees
     int numEmployees = get_all_employees(employees);
-
     // prompts user to enter number of hours for employees
     int i;
     int valid  = 1;
@@ -282,9 +275,7 @@ int run_payroll()
             {
                 printf("Enter hours for %s %s", employees[i].firstName, employees[i].secondName);
                 scanf("%lf", &employees[i].hours);
-
                 double remainder = employees[i].hours - (int)employees[i].hours;
-
                 if(remainder != 0 && remainder != 0.25 && remainder != 0.50 && remainder != 0.75)
                 {
                     valid = 0;
@@ -292,24 +283,18 @@ int run_payroll()
                 }
 				else
                 {
-					valid = 1;
+					             valid = 1;
                 }
             } while(valid != 1);
-
     }
-
     FILE *fp;
     // insert the date into the char array
     time_t now;
     struct tm *t;
     char text[80];
-
     time(&now);
-
     t = localtime(&now);
-
     strftime(text, 80, "%d-%m-%Y", t);
-
     // concat the date to file name
     char *filename;
     if((filename = malloc(strlen("Payroll.txt")+81)) != NULL)
@@ -319,29 +304,90 @@ int run_payroll()
         strcat(filename, text);
         strcat(filename, ".txt");
     }
-
     // use the file
     fp = fopen(filename, "w+");
-
     for(i = 0; i < numEmployees; i++)
     {
             char gross[20];
-            char text[10];
+            char rate[10];
             fputs(employees[i].firstName, fp);
             fputs(employees[i].secondName, fp);
             fputs(employees[i].department, fp);
             employees[i].gross = employees[i].payRate * employees[i].hours;
-            // snprintf(text, 10, "%.2f\n", employees[i].payRate);
-            // fputs(text, fp);
+            snprintf(rate, 10, "%.2f\n", employees[i].payRate);
+            fputs(rate, fp);
             snprintf(gross, 20, "%.2f\n", employees[i].gross);
             fputs(gross, fp);
-
-
             printf("\nName:\t\t%s %s", employees[i].firstName, employees[i].secondName);
             printf("Department:\t%s", employees[i].department);
-            printf("Pay Rate:\t%s", employees[i].payRate);
+            printf("Pay Rate:\t%s", rate);
             printf("Gross:\t\t%s", gross);
-
     }
     fclose(fp);
+}
+
+
+char wages_path[] = "Payroll - 01-06-2016.txt";
+
+
+
+
+int get_all_wages(Employee *employees)
+{
+  // fill the list with employees
+	FILE*file_ptr;
+	int i = 0;
+	char text[50];
+
+	file_ptr = fopen(wages_path, "r");
+	if(file_ptr!= NULL )
+	{
+		while(fgets(text, 50, file_ptr))
+		{
+            strcpy(employees[i].firstName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].secondName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].department, text);
+            fgets(text, 50, file_ptr);
+            employees[i].gross = atof(text);
+            i++;
+
+            strcpy(employees[i].firstName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].secondName, text);
+            fgets(text, 50, file_ptr);
+            strcpy(employees[i].department, text);
+            fgets(text, 50, file_ptr);
+            employees[i].payRate = atof(text);
+            i++;
+
+		}
+		fclose( file_ptr);
+	}
+	else
+	{
+		printf( "Unable to open file\n");
+	}
+    // return the number of employees
+    return i;
+}
+
+
+void print_all_wages()
+{
+  Employee* employees = malloc(20 * sizeof(Employee));
+  // get a list of all employees
+  int numEmployees = get_all_wages(employees), i;
+  for(i = 0; i < numEmployees; i++)
+  {
+    printf("\n*************************");
+    printf("\nNumber: %d\n", i);
+    printf("First Name: %s", employees[i].firstName);
+    printf("Second Name: %s", employees[i].secondName);
+    printf("Department: %s", employees[i].department);
+    // printf("Pay rate: %.2f\n", employees[i].payRate);
+    // printf("Employee hours: %s\n", employees[i].hours);
+    printf("Employee gross: %.2f\n", employees[i].gross);
+  }
 }

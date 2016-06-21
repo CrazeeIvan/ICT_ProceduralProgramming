@@ -10,20 +10,18 @@
 #include <string.h>
 #include <math.h>
 
-#include "employees.h"
-#include "departments.h"
-#include "pay.h"
-#include "wages.h"
+#include "controller.h"
 
-void menu();
-
+void mainMenu();
+void employeeMenu();
+void payRollMenu();
 
 int main ()
 {
   int option, submenu;
   while(option!=5)
   {
-    menu();
+    mainMenu();
     scanf("%1d", &option);
     if (option == 1)
     {
@@ -54,7 +52,7 @@ int main ()
     {
       while(submenu!=5)
       {
-        departmentsMenu();
+        payRollMenu();
         scanf("%1d", &submenu);
         if (submenu == 1)
         {
@@ -64,44 +62,11 @@ int main ()
         {
 
         }
-
-      }
-    }
-    else if (option == 3)
-    {
-      while(submenu!=5)
-      {
-        payMenu();
-        scanf("%1d", &submenu);
-        if (submenu == 1)
-        {
-          //Add pay rate
-        }
-        else if (submenu == 2)
-        {
-          //Read pay rate
-        }
-      }
-    }
-    else if (option == 4)
-    {
-      while(submenu!=5)
-      {
-        wagesMenu();
-        scanf("%1d", &submenu);
-        if (submenu == 2)
-        {
-          print_all_wages();
-        }
-        else if (submenu == 2)
-        {
-          //Read pay rate
-        }
       }
     }
     else if (option != 5)
     {
-      printf("\nInvalid selection. Please just a value between 1-5");
+      printf("\nInvalid selection. Please enter a value between 1-3");
     }
     submenu=0;
   }
@@ -109,12 +74,29 @@ int main ()
 }
 
 
-void menu()
+void mainMenu()
 {
   printf("\n\t\t##Main Menu##\n");
   printf("\n\t\t1. Employees");
-  printf("\n\t\t2. Departments");
-  printf("\n\t\t3. Pay rates");
-  printf("\n\t\t4. Wages");
+  printf("\n\t\t2. Payroll\n\n");
   printf("\n\t\t5. Exit\n");
+}
+
+
+void employeeMenu()
+{
+  printf("\n\t\t##Employee Menu##\n");
+  printf("\n\t\t1. Add Employees");
+  printf("\n\t\t2. Show Employees");
+  printf("\n\t\t3. Update Employees");
+  printf("\n\t\t4. Delete Employees");
+  printf("\n\t\t5. Back\n");
+}
+
+
+void payRollMenu()
+{
+  printf("\n\t\t##Wages Menu##\n");
+  printf("\n\t\t1. Run pay roll\n\n");
+  printf("\n\t\t5. Back\n");
 }

@@ -1,8 +1,12 @@
+// Name: Ciarán Maher
+// Date: 27/June/2016
+// ID:   KTQ0855
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 char path[] = "employees.txt";
 
 
@@ -13,8 +17,6 @@ typedef struct
   char secondName[50];
   char department[5];
 } Employee;
-
-
 
 
 int save_employees(Employee *employees, int numEmployees)
@@ -46,7 +48,6 @@ int save_employees(Employee *employees, int numEmployees)
 
 int get_all_employees(Employee *employees)
 {
-  // fill the list with employees
 	FILE*file_ptr;
 	int i = 0;
 	char text[50];
@@ -70,14 +71,12 @@ int get_all_employees(Employee *employees)
 	{
 		printf( "Unable to open file\n");
 	}
-    // return the number of employees
     return i;
 }
 
 
 void get_new_employee(Employee *employees, int numEmployees)
 {
-    // Gather employee details
     printf("Enter first name of employee:\n");
     scanf(" %[^\n]", employees[numEmployees].firstName);
     strcat(employees[numEmployees].firstName, "\n");
@@ -96,38 +95,35 @@ void add_new_employee()
 {
   printf("\n\t\t##Add Employee##\n");
   Employee* employees = malloc(20 * sizeof(Employee));
-  // get a list of all employees
   int numEmployees = get_all_employees(employees);
   get_new_employee(employees, numEmployees);
-  int confirm = 0;
-  while (confirm != 1 && confirm != 2)
-  {
+  int confirm, done = 0;
+  char str[10];
+  do{
     printf("\n\n\n\t\tSave?\n\t\t\t1. Yes/2. No\n");
-    scanf("%1d", &confirm);
-    if (confirm == 1)
+		scanf("%s", str);
+    confirm = atoi(str);
+
+		switch(confirm)
     {
-      // Save file
-      save_employees(employees, numEmployees+1);
-      printf("\n\nThe submitted details were saved to %s\n\n", path);
-    }
-    else if (confirm == 2)
+			case 1: save_employees(employees, numEmployees+1);
+				break;
+			case 2: printf("\n\nSave aborted.\n");
+				break;
+			default: printf("\n\nInvalid input, please try again.\n");
+                break;
+		}
+    if (confirm == 1 || 2)
     {
-      // Prompt 'go back?' then go back to employee menu
-      printf("\n\nSave aborted.\n");
-      break;
+      done = 2;
     }
-    else
-    {
-      printf("\n\nInvalid input, please try again.\n");
-    }
-  }
+	} while(done != 2);
 }
 
 
 void print_all_details()
 {
   Employee* employees = malloc(20 * sizeof(Employee));
-  // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
@@ -137,8 +133,6 @@ void print_all_details()
     printf("Second Name: %s", employees[i].secondName);
     printf("Department: %s", employees[i].department);
     printf("Pay rate: %.2f\n", employees[i].payRate);
-    // printf("Employee hours: %s\n", employees[i].hours);
-    // printf("Employee gross: %s\n", employees[i].gross);
   }
 }
 
@@ -146,7 +140,6 @@ void print_all_details()
 void print_details(employeeNum)
 {
   Employee* employees = malloc(20 * sizeof(Employee));
-  // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
@@ -158,8 +151,6 @@ void print_details(employeeNum)
       printf("Second Name: %s", employees[employeeNum].secondName);
       printf("Department: %s", employees[employeeNum].department);
       printf("Pay rate: %.2f\n", employees[employeeNum].payRate);
-      // printf("Jours: %s\n", employees[employeeNum].hours);
-      // printf("Gross: %s\n", employees[employeeNum].gross);
     }
   }
 }
@@ -171,7 +162,6 @@ void update_employee()
   printf("Please select employee Number of the employee you would like to update:\n");
   scanf("%d", &employeeNum);
   Employee* employees = malloc(20 * sizeof(Employee));
-  // get a list of all employees
   int numEmployees = get_all_employees(employees), i;
   int employeeFound = 0;
   for(i = 0; i < numEmployees; i++)
@@ -191,31 +181,30 @@ void update_employee()
       strcat(employees[employeeNum].department, "\n");
       printf("Pay rate: Current: %.2f\n", employees[employeeNum].payRate);
       scanf("%lf", &employees[employeeNum].payRate);
-      int confirm = 0;
-      while (confirm != 1 && confirm != 2)
-      {
+      int confirm, done = 0;
+      char str[10];
+      do{
         print_details(employeeNum);
         printf("\n\n\n\t\tAre you sure you would like to replace these employee details?\n\t\t\t1. Yes/2. No\n");
-        scanf("%1d", &confirm);
-        if (confirm == 1)
-        {
-          // Save file
-          save_employees(employees, numEmployees);
-          printf("\n\nThe submitted details were saved to %s\n\n", path);
-        }
-        else if (confirm == 2)
-        {
-          // Prompt 'go back?' then go back to employee menu
-          printf("\n\nSave aborted.\n");
-          break;
-        }
-        else
-        {
-          printf("\n\nInvalid input, please try again.\n");
-        }
-      }
-    }
+    		scanf("%s", str);
+        confirm = atoi(str);
 
+    		switch(confirm)
+        {
+    			case 1: save_employees(employees, numEmployees);
+          printf("\n\nThe submitted details were saved to %s\n\n", path);
+          break;
+    			case 2: printf("\n\nSave aborted.\n");
+    				break;
+    			default: printf("\n\nInvalid input, please try again.\n");
+                    break;
+    		}
+        if (confirm == 1 || 2)
+        {
+          done = 2;
+        }
+    	} while(done != 2);
+    }
   }
   print_details(employeeNum);
   if (employeeFound == 0)
@@ -231,33 +220,32 @@ void delete_employee()
     printf("Please select employee Number of the employee you would like to delete:\n");
     scanf("%d", &employeeNum);
     Employee* employees = malloc(20 * sizeof(Employee));
-    // get a list of all employees
     int numEmployees = get_all_employees(employees), i;
     for (i = employeeNum; i < numEmployees-1 ; i++ )
         employees[i] = employees[i+1];
-    int confirm = 0;
-    while (confirm != 1 && confirm != 2)
-    {
+    int confirm, done = 0;
+    char str[10];
+    do{
       print_details(employeeNum);
       printf("\n\n\n\t\tAre you sure you would like to delete this employee record?\n\t\t\t1. Yes/2. No\n");
-      scanf("%1d", &confirm);
-      if (confirm == 1)
+      scanf("%s", str);
+      confirm = atoi(str);
+
+      switch(confirm)
       {
-        // Save file
-        save_employees(employees, numEmployees-1);
+        case 1: save_employees(employees, numEmployees-1);
         printf("\n\nThe submitted details were saved to %s\n\n", path);
-      }
-      else if (confirm == 2)
-      {
-        // Prompt 'go back?' then go back to employee menu
-        printf("\n\nSave aborted.\n");
         break;
+        case 2: printf("\n\nSave aborted.\n");
+          break;
+        default: printf("\n\nInvalid input, please try again.\n");
+                  break;
       }
-      else
+      if (confirm == 1 || 2)
       {
-        printf("\n\nInvalid input, please try again.\n");
+        done = 2;
       }
-    }
+  	} while(done != 2);
     print_all_details();
 }
 
@@ -265,9 +253,7 @@ void delete_employee()
 int run_payroll()
 {
     Employee* employees = malloc(20 * sizeof(Employee));
-    // get a list of all employees
     int numEmployees = get_all_employees(employees);
-    // prompts user to enter number of hours for employees
     int i;
     int valid  = 1;
     for(i = 0; i < numEmployees; i++)
@@ -289,23 +275,20 @@ int run_payroll()
             } while(valid != 1);
     }
     FILE *fp;
-    // insert the date into the char array
     time_t now;
     struct tm *t;
     char text[80];
     time(&now);
     t = localtime(&now);
     strftime(text, 80, "%d-%m-%Y", t);
-    // concat the date to file name
     char *filename;
     if((filename = malloc(strlen("Payroll.txt")+81)) != NULL)
     {
-        filename[0] = '\0';   // ensures the memory is an empty string
+        filename[0] = '\0';
         strcpy(filename, "Payroll - ");
         strcat(filename, text);
         strcat(filename, ".txt");
     }
-    // use the file
     fp = fopen(filename, "w+");
     for(i = 0; i < numEmployees; i++)
     {
@@ -328,14 +311,10 @@ int run_payroll()
 }
 
 
-char wages_path[] = "Payroll - 01-06-2016.txt";
-
-
-
+char wages_path[] = "Payroll - 27-06-2016.txt";
 
 int get_all_wages(Employee *employees)
 {
-  // fill the list with employees
 	FILE*file_ptr;
 	int i = 0;
 	char text[50];
@@ -370,15 +349,13 @@ int get_all_wages(Employee *employees)
 	{
 		printf( "Unable to open file\n");
 	}
-    // return the number of employees
     return i;
 }
 
 
 void print_all_wages()
 {
-  Employee* employees = malloc(20 * sizeof(Employee));
-  // get a list of all employees
+  Employee* employees = malloc(20 * sizeof(Employee
   int numEmployees = get_all_wages(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
@@ -387,8 +364,6 @@ void print_all_wages()
     printf("First Name: %s", employees[i].firstName);
     printf("Second Name: %s", employees[i].secondName);
     printf("Department: %s", employees[i].department);
-    // printf("Pay rate: %.2f\n", employees[i].payRate);
-    // printf("Employee hours: %s\n", employees[i].hours);
     printf("Employee gross: %.2f\n", employees[i].gross);
   }
 }

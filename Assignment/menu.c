@@ -1,17 +1,12 @@
-// The project taken on by the company is to create an application to process the
-// payroll of the client. The document does not contain enough details about the
-// application. Therefore, you have been asked to interview the client to gather
-// the requirements of the application, and to produce a report highlighting the
-// design specification of the solution in which should include, for example:
-// diagram, inputs, outputs, and any other relevant information about the
+// Name: Ciarán Maher
+// Date: 27/June/2016
+// ID:   KTQ0855
+
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <ctype.h>
-#include <stdbool.h>
-
 #include "controller.h"
 
 void mainMenu();

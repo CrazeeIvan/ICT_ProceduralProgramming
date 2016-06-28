@@ -6,7 +6,8 @@
 char path[] = "employees.txt";
 
 
-typedef struct{
+typedef struct
+{
   double Id, payRate, hours, gross;
   char firstName[50];
   char secondName[50];

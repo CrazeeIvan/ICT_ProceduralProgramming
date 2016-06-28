@@ -37,26 +37,18 @@ Gross Wages:			€585	// Gross to date?
 Pseudo code:
 
 Add
-	done (ish)
+	done
 
 Read
-	Read from file
-	Dump to screen
-	1-10 -> Select 1st to 10th Entry
+	done
 
 Update
-	Dump to screen
-	Select employee to edit
-	Print Original 	("Current Name: Ciaran Maher")
-	Read New	("Enter new name (Press enter for no change): ")
-	Find original
-	Replace new
+		done
 
 Delete Employee
-	Select
-	Delete
-	Search
-	Confirm
-	Delete all lines from "name line"
+		done
 
-Repeat for Departments/Rates/Wages
+payRoll
+	Dump details to screen
+	Dump details to file
+		Done (ish)

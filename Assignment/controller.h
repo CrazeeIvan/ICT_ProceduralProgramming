@@ -355,7 +355,7 @@ int get_all_wages(Employee *employees)
 
 void print_all_wages()
 {
-  Employee* employees = malloc(20 * sizeof(Employee
+  Employee* employees = malloc(20 * sizeof(Employee));
   int numEmployees = get_all_wages(employees), i;
   for(i = 0; i < numEmployees; i++)
   {
